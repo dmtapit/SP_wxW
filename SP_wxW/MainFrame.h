@@ -10,4 +10,8 @@ public:
 
 	wxMenuBar *menuBar;
 	wxMenu *fileMenu;
+
+private:
+	// The panel which holds all the contents in the main frame
+	wxPanel * mainPanel;
 };

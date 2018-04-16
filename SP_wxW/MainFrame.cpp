@@ -1,6 +1,19 @@
 #include "MainFrame.h"
 
-MainFrame::MainFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(500, 250))
+///////////////////////////////////////////////////////////////////////////////
+// Event Table
+///////////////////////////////////////////////////////////////////////////////
+wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
+EVT_MENU(MainMenu_Quit, MainFrame::OnQuit)
+
+wxEND_EVENT_TABLE()
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Main Frame
+//
+///////////////////////////////////////////////////////////////////////////////
+MainFrame::MainFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1000, 750))
 {
 	menuBar = new wxMenuBar;
 	
@@ -10,7 +23,9 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxD
 	menuBar->Append(fileMenu, wxT("&File"));
 	
 	SetMenuBar(menuBar);
-	Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnQuit));
+	
+	//Moved the same functionality to the Event Table
+	//Connect(wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrame::OnQuit));
 
 	// Panel which will contain the two halves: upper, lower /////////////////////////
 	mainPanel = new wxPanel(this, wxID_ANY);
@@ -21,7 +36,7 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxD
 	driveBook = new DriverNotebook(mainPanel, DriveBook_MainBook,
 		wxDefaultPosition, wxDefaultSize, style, "Drive - MainBook");
 
-	// Bottom portion
+	// Bottom portion ////////////////////////////////////////////////////////////////
 	wxSizer * sizerLower = new wxBoxSizer(wxVERTICAL);
 
 	wxBoxSizer * sizerBtns = new wxBoxSizer(wxHORIZONTAL);
@@ -40,6 +55,13 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(NULL, wxID_ANY, title, wxD
 	mainPanel->SetSizer(sizerUpper);
 
 	Centre(); // Still not sure the difference between Centre() and Center(), if any...
+}
+
+
+// Main Frame's destructor
+MainFrame::~MainFrame()
+{
+
 }
 
 void MainFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
